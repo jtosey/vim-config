@@ -1,39 +1,42 @@
 " Run a test tool with the current file and line number
 " The test tool is run in the last Terminal window
+let g:LastTestCommand = ""
 function! RunTestTool(tool_cmd)
-  let dir = system('pwd')
+  let dir = system('pwd | tr -d "\n"')
   let applescript = "osascript -e '".'tell application "Terminal"'
   let applescript .= "\n"
-  let applescript .= 'do script "cd '.dir.'" in last window'
-  let applescript .= "\n"
-  let applescript .= 'do script "'.a:tool_cmd.'" in last window'
+  let applescript .= 'do script "cd '.dir.' && '.a:tool_cmd.'" in last window'
   let applescript .= "\n"
   let applescript .= 'end tell'."'"
+  let g:LastTestCommand = applescript
   let foo = system(applescript)
+endfunction
+
+command! RunLastTestCommand :call RunLastTestCommand()
+function! RunLastTestCommand()
+  let foo = system(g:LastTestCommand)
 endfunction
 
 " If the file ends with _spec.rb, RunTestTool with rspec
 " If the file ends with .feature, RunTestTool with cuke
 command! RunFocusedTest :call RunFocusedTest()
 function! RunFocusedTest()
-  let spec_command = system('if [ x != "x"$(which spec) ] ; then echo -n spec ; elif [ x != "x"$(which rspec) ] ; then echo -n rspec ; fi')
   let filename = expand("%")
   if filename =~ '_spec\.rb$'
-    call RunTestTool("be ".spec_command." ".expand("%").":".line("."))
+    call RunTestTool("rspec ".expand("%").":".line("."))
   endif
   if filename =~ '\.feature$'
-    call RunTestTool("cuke ".expand("%").":".line("."))
+    call RunTestTool("cucumber ".expand("%").":".line("."))
   endif
 endfunction
 
 command! RunTests :call RunTests()
 function! RunTests()
-  let spec_command = system('if [ x != "x"$(which spec) ] ; then echo -n spec ; elif [ x != "x"$(which rspec) ] ; then echo -n rspec ; fi')
   let filename = expand("%")
   if filename =~ '_spec\.rb$'
-    call RunTestTool("be ".spec_command." ".expand("%"))
+    call RunTestTool("rspec ".expand("%"))
   endif
   if filename =~ '\.feature$'
-    call RunTestTool("cuke ".expand("%"))
+    call RunTestTool("cucumber ".expand("%"))
   endif
 endfunction

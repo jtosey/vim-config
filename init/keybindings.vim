@@ -119,3 +119,7 @@ nmap du :diffupdate<CR>
 
 " Gundo.vim
 map <leader>u :GundoToggle<CR>
+
+map <D-I> :RunFocusedTest<CR>
+map <D-i> :RunLastTestCommand<CR>
+
