@@ -23,10 +23,10 @@ command! RunFocusedTest :call RunFocusedTest()
 function! RunFocusedTest()
   let filename = expand("%")
   if filename =~ '_spec\.rb$'
-    call RunTestTool("rspec ".expand("%").":".line("."))
+    call RunTestTool("vim_auto_rspec ".expand("%").":".line("."))
   endif
   if filename =~ '\.feature$'
-    call RunTestTool("cucumber ".expand("%").":".line("."))
+    call RunTestTool("vim_auto_cucumber ".expand("%").":".line("."))
   endif
 endfunction
 
@@ -34,9 +34,9 @@ command! RunTests :call RunTests()
 function! RunTests()
   let filename = expand("%")
   if filename =~ '_spec\.rb$'
-    call RunTestTool("rspec ".expand("%"))
+    call RunTestTool("vim_auto_rspec ".expand("%"))
   endif
   if filename =~ '\.feature$'
-    call RunTestTool("cucumber ".expand("%"))
+    call RunTestTool("vim_auto_cucumber ".expand("%"))
   endif
 endfunction
