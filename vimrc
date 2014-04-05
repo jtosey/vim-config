@@ -35,3 +35,6 @@ runtime! init/**.vim
 " Machine-local vim settings - keep this at the end
 " --------------------------
 silent! source ~/.vimrc.local
+set background=light
+let g:solarized_termcolors=256
+colorscheme solarized
