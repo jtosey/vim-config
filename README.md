@@ -1,7 +1,7 @@
 # To Install
 (Re)move ~/.vim and ~/.vimrc if you have them already, and run:
 
-    git clone git://github.com/pivotal/vim-config.git ~/.vim
+    git clone git@github.com:jtosey/vim-config.git ~/.vimrc
     cd ~/.vim
     git submodule update --init
     ln -s ~/.vim/vimrc ~/.vimrc
@@ -12,7 +12,7 @@ see the README at [https://github.com/pivotal/tmux-config](https://github.com/pi
     
 # Compile command-t
 
-    rvm system #ensure build on Ruby 1.8.7 if using RVM
+    rbenv global system
     cd ~/.vim/bundle/command-t
     bundle
     rake make
